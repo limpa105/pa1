@@ -13,6 +13,10 @@ const importObject = {
       importObject.output += "\n";
       return arg;
     },
+    abs: Math.abs,
+    min: Math.min,
+    max: Math.max,
+    pow: Math.pow
   },
 
   output: ""
@@ -64,4 +68,104 @@ describe('run(source, config) function', () => {
   });
 
   // TODO: add additional tests here to ensure the compiler runs as expected
+  it('adds multiplies 2 numbers', async() => {
+    const result = await run("2 * 3", config);
+    expect(result).to.equal(6);
+  });
+
+  it('can do abs positive', async() => {
+    const result = await run("abs(1)", config);
+    expect(result).to.equal(1);
+  });
+
+  it('can do negative', async() => {
+    const result = await run("-0", config);
+    expect(result).to.equal(0);
+  });
+
+
+  it('can do abs negative', async() => {
+    const result = await run("abs(-1)", config);
+    expect(result).to.equal(1);
+  });
+
+
+  it('can do max', async() => {
+    const result = await run("max(2,3)", config);
+    expect(result).to.equal(3);
+  });
+
+  it('can do min', async() => {
+    const result = await run("min(2,3)", config);
+    expect(result).to.equal(2);
+  });
+
+  it('can do pow', async() => {
+    const result = await run("pow(2,3)", config);
+    expect(result).to.equal(8);
+  });
+
+  it('multiplication over addition?', async() => {
+    const result = await run("2*2+3*2", config);
+    expect(result).to.equal(10);
+  });
+
+  it('multiplication after pow', async() => {
+    const result = await run("2*pow(3,4)", config);
+    expect(result).to.equal(162);
+  });
+
+  it('multiplication after pow', async() => {
+    const result = await run("-1*2*pow(3,4)", config);
+    expect(result).to.equal(-162);
+  });
+
+  it('assignment?', async() => {
+    const result = await run("x=1\nprint(x)", config);
+    expect(result).to.equal(1);
+  });
+
+  it('Wrong assignement should throw an error', async() => {
+    const result = await run("x=y\nprint(x)", config);
+    expect(result).to.equal(1);
+  });
+
+  it('Correct assignement should throw an error', async() => {
+    const result = await run("y=3\nx=y\nprint(x)", config);
+    expect(result).to.equal(3);
+  });
+
+  it('Incorrect Type Assigned', async() => {
+    const result = await run("y=.25\nprint(y)", config);
+    expect(result).to.equal(3);
+  });
+
+  it('More Assignement fun', async() => {
+    const result = await run("y=pow(2,2)\nprint(y)", config);
+    expect(result).to.equal(4);
+  });
+
+  it('Incorrect Acheived', async() => {
+    const result = await run("y=pow(2,-2)\nprint(y)", config);
+    expect(result).to.equal(3);
+  });
+
+  it('Max', async() => {
+    const result = await run("abs = 2", config);
+    expect(result).to.equal(4);
+  });
+
+  it('abs', async() => {
+    const result = await run("print = 2", config);
+    expect(result).to.equal(1);
+  });
+
+  it('abs', async() => {
+    const result = await run("x = abs", config);
+    expect(result).to.equal(2);
+  });
+
+
+
+
 });
