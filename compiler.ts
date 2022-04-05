@@ -57,11 +57,11 @@ function codeGenExpr(expr : Expr, defined: Array<String>) : Array<string> {
       return [ ...argStmts1, ...argStmts2, `(call $${expr.name})`];
     case "num":
       if (!Number.isInteger(Number(expr.value)))
-          throw new Error("UNSUPPORTED TYPE: only allow i32");
+          throw new Error("ParseError: UNSUPPORTED TYPE: only allow i32");
       return ["(i32.const " + expr.value + ")"];
     case "id":
       if (defined.indexOf(expr.name) < 0)
-        throw new Error("REFERENCE ERROR: Variable Used before Dedined " )
+        throw new Error("ReferenceError: Variable Used before Dedined " )
       return [`(local.get $${expr.name})`];
     case "binexpr":
         const leftStmts = codeGenExpr(expr.left, defined);

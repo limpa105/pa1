@@ -150,18 +150,18 @@ describe('run(source, config) function', () => {
     expect(result).to.equal(3);
   });
 
-  it('Max', async() => {
-    const result = await run("abs = 2", config);
-    expect(result).to.equal(4);
+  it('please work', async() => {
+    const result = await run("abs = 2\nabs(abs)", config);
+    expect(result).to.equal(2);
   });
 
   it('abs', async() => {
-    const result = await run("print = 2", config);
-    expect(result).to.equal(1);
+    const result = await run("min = 2\n print(min)", config);
+    expect(result).to.equal(2);
   });
 
   it('abs', async() => {
-    const result = await run("x = abs", config);
+    const result = await run("min(2,3)=abs(4,5)", config);
     expect(result).to.equal(2);
   });
 
