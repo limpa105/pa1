@@ -136,6 +136,8 @@ export function traverse(c : TreeCursor, s : string) : Array<Stmt> {
   }
 }
 export function parse(source : string) : Array<Stmt> {
+  if (source.length == 0)
+    throw new Error("ParseError: Empty Program");
   const t = parser.parse(source);
   return traverse(t.cursor(), source);
 }
